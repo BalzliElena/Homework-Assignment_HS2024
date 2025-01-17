@@ -198,7 +198,7 @@ iptotn_d <- ggplot(iptotn, aes(x = iptotn_grouped, y = n)) +
   ) +
   labs(
     title = "Net Income Distribution",
-    x = "Net Incomes",
+    x = "Net Income",
     y = "Number of Observations"
   ) +
   theme_light() +
@@ -327,7 +327,7 @@ iptotn_x_pc189_d <- ggplot(iptotn_x_pc189, aes(x = pc189, y = Freq, fill = iptot
     y = ""
   ) +
   scale_fill_manual(values = c("<20'000 CHF" = "#999966", "20'000–50'000 CHF" = "#CCCC66", "50'000–100'000 CHF" = "#FFFF99",
-                               ">100'000 CHF" = "#CCCC99"), name = "Gender") +
+                               ">100'000 CHF" = "#CCCC99"), name = "Net Income") +
   theme_light() +
   theme(
     text = element_text(family = "Times New Roman", size = 12),
@@ -348,8 +348,11 @@ head(pc01_x_pc189)
 
 pc01_x_pc189_d <- ggplot(pc01_x_pc189, aes(x = pc189, y = Freq, fill = pc01)) +
   geom_bar(stat = "identity", position = "stack", width = 0.7) +
-  geom_text(aes(label = sprintf("%.1f%%", Freq)), 
-            position = position_stack(vjust = 0.5), size = 4, family = "Times New Roman") +
+  geom_text(aes(label = sprintf("%.2f%%", Freq),
+                hjust = ifelse(pc01 %in% c("not well at all"), -0.5, 
+                               ifelse(pc01 %in% c("not very well"), 1.5, 0.5))),
+            position = position_stack(vjust = 0.5), 
+            size = 4, family = "Times New Roman") +
   scale_y_continuous(
     labels = scales::percent_format(scale = 1),
     expand = expansion(mult = c(0.05, 0.05))
